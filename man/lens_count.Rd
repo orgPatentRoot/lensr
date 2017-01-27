@@ -2,56 +2,65 @@
 % Please edit documentation in R/lens_count.R
 \name{lens_count}
 \alias{lens_count}
-\title{Retrieve patent family counts from a query to the Lens}
+\title{Retrieve patent counts from a query to the Lens}
 \usage{
-lens_count(query, boolean = "NULL", type = "NULL", rank_family = "NULL",
-  rank_citing = "NULL", rank_sequences = "NULL",
-  latest_publication = "NULL", earliest_publication = "NULL",
-  latest_filing = "NULL", earliest_filing = "NULL", families = TRUE)
+lens_count(query, boolean = "NULL", type = "NULL", applicant = NULL,
+  applicant_boolean = "NULL", inventor = NULL, inventor_boolean = "NULL",
+  publn_date_start = NULL, publn_date_end = NULL,
+  filing_date_start = NULL, filing_date_end = NULL, jurisdiction = "NULL",
+  families = "NULL", timer = 20)
 }
 \arguments{
-\item{query}{One or more terms to search in the patent database (one or two words only at present)}
+\item{query}{One or more terms to search in the patent database.}
 
 \item{boolean}{Select the type of boolean ("OR" or "AND") where using multiple search terms.}
 
 \item{type}{Either fulltext (default), title, abstract, claims, or title,
 abstract and claims (tac). Quoted.}
 
-\item{rank_family}{Whether to sort the Lens results by the number of family
-members (descending). Useful for retrieving important documents. See
-details.}
+\item{applicant}{An applicant name or vector of applicant names}
 
-\item{rank_citing}{Whether to sort the Lens results by the top citing
-(descending). Useful for retrieving important documents. See details.}
+\item{applicant_boolean}{"AND" or "OR".}
 
-\item{rank_sequences}{Rank results on whether the documents contain a dna or amino
-acid sequence. See details.}
+\item{inventor}{An inventor name or vector of inventor names.}
 
-\item{latest_publication}{Sort results by the latest publication date.
-Useful for retrieving the most recent documents. See details.}
+\item{inventor_boolean}{"AND" or "OR".}
 
-\item{earliest_publication}{Sort results by the earliest publication date.
-See details.}
+\item{publn_date_start}{The publication date as the starting point for searching. (YYYYMMDD)}
 
-\item{latest_filing}{Sort results by the latest filing (priority) date.
-Useful for identifying the latest filings (note that they are the latest
-filings that have a publication). See details.}
+\item{publn_date_end}{The publication date to search until (YYYYMMDD).}
 
-\item{earliest_filing}{Sort results by the earliest publication date. See
-details.}
+\item{filing_date_start}{The filing data as the starting point for searching (YYYYMMDD).}
 
-\item{families}{The function returns both the publication count and family count (default). If
-families = TRUE return the number of patent families will be returned (deduplicates a set of
-publications to the first publication of the root "priority" or first
-filing).}
+\item{filing_date_end}{The filing date to search until (YYYYMMDD).}
+
+\item{jurisdiction}{Limit the search to a single jurisdiction (default is
+all) e.g. "US" or choose inbuilt group "main" for the United States (US),
+European Patent Office (EP), Japan (JP) or the World Intellectual Property
+Organization (WO) for the Patent Cooperation Treaty.}
+
+\item{families}{Set to TRUE to retrieve only counts of patent families "NULL" (default) or FALSE will return publications and families.}
+
+\item{timer}{set the time between calls in seconds when using a vector of search terms. Default = 20 seconds.}
 }
 \value{
 data.frame
 }
 \description{
-A short version lf lens_search that returns the results from a query to the Lens. Useful for working out the overall number of results from a query for refinement or download.
+Used for testing only. Returns the results from a query to the Lens. Useful for working out the overall number of results from a query for refinement or download.
+}
+\details{
+Where a boolean operator ("OR" or "AND") for multiple search terms is not specified, the function will treat each as a seperate search term and return a data.frame with rows for each term. If the operator is specified the combined results are returned.
+}
+\note{
+For consistency, the output of the function is always a length 3 tibble (data frame) listing publications, families and the search query. Where only families are requested (families = TRUE), publications will be recorded as "NA" in the output. Where, on rare occassions involving very low results, the Lens returns results only and no families the result is equivalent to families and publications will be copied across to families and a message provided.
 }
 \examples{
-\dontrun{lens_count("drones")}
+\dontrun{lens_count("drones")
+lens_count("synthetic biology", type = "tac")
+lens_count(c("drone", "drones"), timer = 5) \%>\% print()
+lens_count(c("drone", "drones"), boolean = "AND", timer = 5) \%>\% print()
+lens_count(synbio, boolean = "OR", type = "tac") \%>\% print()
+lens_count(c("gene drive", "gene drives"), boolean = "OR", families = TRUE, timer = 10) \%>\% print()}
 }
 

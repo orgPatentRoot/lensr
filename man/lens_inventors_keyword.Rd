@@ -25,6 +25,6 @@ a url for use in ops_iterate
 Use a single inventor name or vector of inventor names with one or more search terms. Inventor names should be in the format "Surname First Name".
 }
 \examples{
-\dontrun{lens_inventor_keyword("Kerr Russell", query = "bahamas")}
+\dontrun{lens_inventors_keyword("Kerr Russell", query = "bahamas")}
 }
 

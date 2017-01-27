@@ -6,8 +6,8 @@
 #' @export
 #' @importFrom stringr str_replace_all
 #' @importFrom stringr str_c
-#' @examples \dontrun{(lens_inventor("Venter Craig"))}
-#' @examples \dontrun{lens_inventor(three_authors)}
+#' @examples \dontrun{(lens_inventors("Venter Craig"))}
+#' @examples \dontrun{lens_inventors(three_authors)}
 lens_inventors <- function(inventor = NULL, inventor_boolean = "NULL"){ #note changed inventor from "NULL" to NULL
   baseurl <- "https://www.lens.org/lens/search?q="
   start <- "inventor%3A%22"

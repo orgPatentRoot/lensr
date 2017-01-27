@@ -12,32 +12,27 @@ knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 
 ## Introduction
 
-The is a pre-release of an R package to provide access to the basic functions of the [Lens Patent Database](https://www.lens.org/lens/) using R. The package is in an early stage of development. 
+This is an early version of an R package to provide access to the basic functions of the [Lens Patent Database](https://www.lens.org/lens/) using R. 
 
-For example, we might want to search for patent activity known to be associated with a particular country such as Kenya. In this case we will bring back only the first 50 results
+The Lens provides access to millions of patent records from around the world and allows for searches of the full text (title, abstract, description and claims) of patent documents. We can also search using applicants, inventors and author names and combine searches across different fields. 
 
-```{r tidy=TRUE}
-species <- c("Actinomadura kijaniata", "Natrialba magadii", "Natronobacterium magadii", "Glossina brevipalpis", "Phlebotomus duboscqi")
-kenya <- lens_search(query = species, boolean = "OR", families = TRUE, timer = 10)
-```
+The Lens allows those who register for a free account to save, share and download Collections of upto 10,000 records. If you are seeking access to large amounts of patent data we suggest that you follow this route by registering for the database and creating Collections online. If you are completely new to the Lens we recommend the walkthrough in the [WIPO Manual on Open Source Patent Analytics](https://wipo-analytics.github.io/the-lens-1.html).
 
-The Lens provides access to millions of patent records from around the world and allows for searches of the full text (title, abstract, description and claims) of patent documents. We can also search using applicants, inventors and author names and combine searches for say inventors and text terms.
+`lensr` is intended for light weight exploratory use of patent data using the Lens. The default number of records that will be returned by a search is 50 and we aim to increase that in future. If you would like more records please use the Lens database and the Collections feature directly. 
 
-The Lens allows those who register for a free account to save, share and download Collections of upto 10,000 records. If you are seeking access to large amounts of patent data we suggest that you follow this route by registering for the database and creating Collections online. 
+If your research involves complex queries you may find it convenient to use the `lens_urls` function in `lensr` to create complex urls that you can paste into the Lens as the basis for creating a collection to download. 
 
-`lensr` is intended for light weight exploratory use of patent data using the Lens. The maximum number of records that will presently be returned by a search is 500. If you would like more records than that please use the Lens database and Collections directly. 
+The package was developed as part of a wider initiative to make patent data more accessible for analytics purposes and to support monitoring under the [Nagoya Protocol on Access to Genetic Resources and Benefit-Sharing](https://www.cbd.int/abs/about/) of the [United Nations Convention on Biological Diversity](https://www.cbd.int/). 
 
-You do not need to know R to use this package and the main functions are covered below. 
+For those unfamiliar with patent analytics we suggest reading the [WIPO Manual on Open Source Patent Analytics](https://wipo-analytics.github.io/) and the [repository of related materials](https://github.com/wipo-analytics). 
 
-The package was developed as part of a wider initiative to make patent data more accessible for analytics purposes by patent offices and researchers in developing countries. For further information on open source patent analytics see the [WIPO Manual on Open Source Patent Analytics](https://wipo-analytics.github.io/) and the [repository of related materials](https://github.com/wipo-analytics). 
+## Package Details
 
-### Background
+Package development follows the [ropensci guide](https://github.com/ropensci/onboarding/blob/master/packaging_guide.md) and may one day make it into the `ropensci` list of packages. At present the package is in early development.
 
-The package is written using a combination of `rvest` and packages in the [`tidyverse`](https://blog.rstudio.org/2016/09/15/tidyverse-1-0-0/). The package is built in RStudio using `roxygen2`. `testthat` is used for unit testing and the package is tested using Travis. Package development follows the [ropensci guide](https://github.com/ropensci/onboarding/blob/master/packaging_guide.md) and may one day make it into the `ropensci` list of packages. At present the package is in early development.
+## Getting started
 
-###Getting started
-
-`lensr` is not on CRAN but can be installed using devtools. If you need to install devtools in RStudio use:
+`lensr` is not on CRAN but can be installed using `devtools`. If you need to install `devtools` in RStudio use:
 
 ```{r devtools, eval=FALSE}
 install.packages("devtools")
@@ -51,21 +46,43 @@ devtools::install_github("poldham/lensr")
 
 ## Using lensr
 
-`lensr` involves three main functions and one overall function.
+`lensr` involves two general functions and a set of specific functions.
 
-1. `lens_count()`. Get counts of patent families and publications from different kinds of searches.
-2. `lens_urls()`. Generates urls for use in searches.
-3. `len_iterate()`. Fetch the data and parses it into a data.frame table using `lens_parse()`.
-4. `lens_search()` brings the above together in one place with some sensible defaults. 
+**General functions**
 
-The main function that you will probably want to use is `lens_search()` but a typical workflow will start by using `lens_count()` to bring back some numbers from a query followed by the use of `lens_search()`.
+1. `lens_count()`. 
 
-###lens_count
+Use this function to get counts of patent families and publications from different kinds of searches.
 
-Use lens_count() to get an idea of the results for different queries. Note that you can control whether to search the full text (default), title, abstract or claims as separate fields or the title or abstract or claims (tac) at the same time. 
+2. `lens_search()` allows for complex searching and retrieval of data from the Lens.
+
+**Specific functions**
+
+3. `lens_applicants()`. Search on applicant names.
+4. `lens_inventors()`. Search on inventor names.
+5. `lens_ipcs()`. Search on International Patent Classification codes.
+6. `lens_authors()`. Search patent documents for citations containing an author name. 
+
+**Worker functions**
+
+For those interested in contributing to package development, the main worker functions are:
+
+1. `lens_urls()` Generate urls across the different functions (called by `lens_search`).
+2. `lens_iterate()` loops over vectors of urls with `lapply` and times each call to minimise pressure on the server. 
+3. `lens_parse()` parses the results to a tibble (data.frame) and can be called with `lens_iterate()`.
+
+## Workflow
+
+A typical workflow will begin with `lens_count()` to work out the total number of results for a query, or combination of queries. This will be followed by either the use of `lens_search()` or one of the specific functions (e.g. applicants, inventors, ipcs).
+
+### lens_count
+
+Use `lens_count()` to get an idea of the results for different queries. `lens_count()` presently concentrates on searches using keywords and phrases as these will typically generate large number of results that need refining. 
+
+Note that you can use `type = ` to control whether to search the full text (default), title, abstract or claims as separate fields or the `title or abstract or claims` (tac) at the same time. 
 
 ```{r count_default}
-lens_count("drones")
+lens_count("drones") # searches full text
 ```
 
 To search titles we would use:
@@ -74,36 +91,200 @@ To search titles we would use:
 lens_count("drones", type = "title")
 ```
 
-and the title or abstract or claims (tac)
+and the title or abstract or claims ("tac")
 
 ```{r count_tac}
 lens_count("drones", type = "tac")
 ```
 
-By default the lens returns the number of patent families and the number of publications across the database. The number of patent families refers to first filings of patent applications. Publications refers additional republications (as applications, as grants, with search reports etc. in multiple countries and is always higher than the families count). When retrieving patent data from the lens the `lens_search()` return patent families (to avoid duplicate records).
+We can return the results of a query for multiple terms as follows. First we construct a vector of search terms. In this case we will use synthetic biology related terms. 
 
-###lens_search()
-
-`lens_search()` is the main package function and allows you to conduct searches using key terms or combinations of inventor names and key terms. In future the function will be expanded to include applicant names and author names (for literature cited). The following assumes we are interested in synthetic biology and sets up a couple of inventor names and some search terms associated with synthetic biology. The search will return 50 results and in future will return up to a maximum of 500. 
-
-```{r lens_search_terms}
-inventor <- c("Venter Craig", "Smith Hamilton")
-synbio <- c("synthetic biology",  "synthetic genomics", "synthetic genome", "synthetic genomes", "biological parts", "genetic circuit", "genetic circuits")
+```{r mult}
+synbio <- c("synthetic biology", "synthetic genomics", "synthetic genome", "synthetic genomes", "biological parts", "genetic circuit", "genetic circuits")
 ```
 
-We can then run a search for the inventor names and the key terms as follows.
+Next we use `lens_count` to fetch the count of results. Note that the timer, in seconds, can be adjusted. In this case we want a count for each individual term to allow us to get a better understanding of the impacts of different search terms. The status of the search will be displayed by dots, with one dot per search term (url).  
 
-```{r lens_search_eg}
-df <- lens_search(inventor = auth, inventor_boolean = "OR", query = synbio, boolean = "OR", type = "tac", timer = 20)
+```{r synbio_count}
+synbio_count <- lens_count(synbio, timer = 10)
+synbio_count
 ```
 
-[Note: Note that families is not added on here because of the lack of links with lens_urls inside this part of lens_search. So the function requires some reformulation, maybe after applicants and ipcs are done.] 
+In other cases, when retrieving results we would want to use a boolean operator ("AND" or "OR") to combine the search terms into one dataset. 
 
-We can also use `lens_search()` simply with a list of key terms
+```{r synbio_or}
+synbio_or <- lens_count(synbio, boolean = "OR", timer = 10)
+synbio_or
+```
 
-```{r lens_urls}
+When retrieving results using `lens_search()` below be sure to use a boolean operator or the data retrieval will not work.  
+
+By default the Lens returns the number of patent families and the number of publications across the database. For the results above we can see that the number of patent families are almost always lower than the number of publications. The exceptions are cases where the number of publications is equivalent to the number of families (for very low document counts). Note that where the Lens finds very low numbers of documents it will not produce a separate results and families count. To handle this, in relevant cases, `lens_count()` copies the publication count into families and generates a message (see the documentation for `lens_count()`).
+
+If you are new to the concept of patent families, and they are very important, read the brief introduction below. If you are familiar with patent families, note that Lens patent families are of the `simple` (e.g. DOCDB) type.
+
+## A brief introduction to patent families
+
+When a patent application is filed for the first time anywhere in the world it becomes the **"priority"** or **"first" filing**. That application may then be published as an application and as a patent grant or with administrative documents such as search reports. This creates a basic patent family where the original application is the "parent" of any subsequent republications of the application, including administrative documents such as search reports, corrections etc. 
+
+However, the same patent application, and divisions of that application, may also be submitted for potential protection in multiple countries using patent instruments such as the European Patent Convention (EP) and internationally using the Patent Cooperation Treaty (WO). This will result in publications of the application, and any grants, in other countries. These documents are **family members** that link to the original priority application as their parent. 
+
+Counts of patent families have the advantage that they `deduplicate` republications of patent documents to only the original (earliest) filing. In the case of the Lens the patent families are simple families (DOCDB families) rather than INPADOC families. Patent families are generally preferred in innovation studies because the priority (filing date) is closest to the date of investment in research and counts of an invention are made only once. 
+
+In contrast, publications include family members such as publications of applications, grants, search reports, corrections and other administrative documents. `lens_search()` returns the document type and in future an argument will be included to allow the type of document to be controlled during query construction. 
+
+## Count by Year
+
+There are two types of year available in the Lens. `filing_year` and `publication_year`. `lensr` allows you to restrict searches using date ranges. 
+
+### Restricting by year
+ 
+To restrict counts by publication year (publn) we need to specify start date (publn_date_start) and the publication date
+
+```{r publn_year}
+lens_count("drones", publn_date_start = 19900101, publn_date_end = 20001231) %>% print()
+```
+
+As an alternative we could also use the filing dates. 
+
+```{r}
+lens_count("drones", filing_date_start = 19900101, filing_date_end = 20001231)
+```
+
+In considering the use of filing dates or publication dates note that patent documents only become available when they are published. In the example above the number of filings for the period was higher than the number of publications for the same period. Why? This is because of the lag time between the filing of an application and its publication. 
+
+The publication of an application typically takes place 24 months after filing but may take considerably longer. So, in the case above it is likely that some of the documents filed in the period 1990-2000 were not published until after the start of 2001. Filing (priority) dates are important when calculating trends in filings for an area of science and technology. However, if you intend to read the documents in practice you will normally want either the earliest or the latest patent publications and will therefore want to use publication (`publn`) date ranges. 
+
+By default `lensr` will return upto 50 results and a maximum of 500 results. Date ranges are the main tool for dividing the data into chunks to overcome these limitations. 
+
+Because of the limitations on data retrieval from the Lens we recommend that for larger scale data you login to the Lens and create Collections. You can use `lens_urls()` to create urls with complex queries that you can simply paste into your browser. If you have logged into the Lens you can then create a Collection for download. We will add some functions at a later data to process the downloaded .csv file in R. Note that when using Collections you gain access to more data fields (such as inventors) than from `lensr`.
+
+## lens_search()
+
+`lens_search()` is the main package function and allows you to conduct searches using key words or phrases and combinations of inventor and applicant names and key words or phrases. In future the function will be expanded to include International Patent Classification codes (ipcs) and author names (for cited literature).
+
+### Search using key terms
+
+`lens_search` will return a tibble (data frame) with 50 results by default. We will normally want to retrieve data deduplicated to families and will set `families = TRUE`. To limit the data to searches that are directly concerned in some way with the subject matter we will search the title or abstract or claims ("tac""). Note the quotes if you are new to R.  
+
+The timer is set to 20 seconds by default across `lensr` functions. You do not need to include it unless you would like to change it. It is included below for illustration. 
+
+```{r timer}
+drones <- lens_search("drones", type = "tac", families = TRUE, timer = 20)
+drones
+```
+
+
+### Search using key terms, applicants and inventors
+
+You can combine searches with key terms and inventors either as individual terms or as multiple sets. 
+
+In this case we will search for synthetic biology related key terms where the inventors are listed as Craig Venter or his long term collaborator Hamilton Smith. 
+
+In constructing these queries note that where using more than one phrase or name we specify the boolean operator as OR or AND. For search terms the boolean is simply `boolean`. For inventor names it is `inventor_boolean` and for applicants `applicant_boolean`. 
+
+To see the difference between setting families = TRUE try setting the value to FALSE and reviewing the titles. 
+
+<!--- review the count of results and develop a test--->
+
+```{r inventors}
+inventors <- lens_search(query = c("synthetic genomics", "synthetic biology"), boolean = "OR", inventor = c("Venter Craig", "Smith Hamilton"), inventor_boolean = "AND", families = TRUE)
+inventors
+```
+
+Note that inventor names do not appear in the results retrieved from the Lens.
+
+### Search using applicants and key terms
+
+Key term and inventor searches can be combined with applicant searches. In this case we will use a vector of search terms and a single inventor and applicant name. Note that within `lens_search()` families is set to TRUE to avoid retrieving duplicates of the same document. 
+
+<!--- review the count of results and develop a test, expect 6 results--->
+
+```{r applicants}
+applicants <- lens_search(query = synbio, boolean = "OR", type = "tac", inventor = "Venter Craig", applicant = "Synthetic Genomics", families = TRUE)
+applicants
+```
+
+## Limit by jurisdictions
+
+The Lens contains patent documents from 95 [jurisdictions](https://www.lens.org/lens/structured-search). The default is to search all jurisdictions. However, in lens_search, lens_count and the underlying lens_urls you can also restrict the countries or patent offices to an individual offices or (for the moment) to the main offices.
+
+```{r single}
+us <- lens_search("drones", jurisdiction = "US")
+us
+```
+
+We often want to search the main patent jurisdictions consisting of the United States (US), European Patent Office (EP), the World Intellectual Property Organization (WO) for the Patent Cooperation Treaty and Japan. These have been grouped in "main" as follows.
+
+```{r main}
+main <- lens_search("drones", jurisdiction = "main")
+main
+```
+
+In future update the ability to select jurisdictions will be improved. 
+
+### Rank search results by citing or simple family size
+
+For most patent analytics tasks we will want three pieces of information:
+
+1. The most recent publications (see above)
+2. The highest cited documents
+3. The documents with the largest number of family members
+
+Counts of citing documents refer to the number of times that a patent document (which may be an application or a grant) has been cited by later patent applications. In contrast with citations of academic publications, the citation of a patent documents limits the scope of what may be claimed as new, novel or involving an inventive step by a later application. The more citations a patent application or grant has received, the greater its impact within the wider patent landscape. As such, documents that receive high citations are important for their impact on later applicants. 
+
+Counts of citations in the Lens are `simple` in nature because they do not appear to remove self-citations (citations of the document in other patent documents from the same applicant) and citation counts are by document and not aggregated by family. 
+
+In contrast, family size is an expression of the importance of an application to the applicants, expressed in their willingness to pay fees to secure protection in multiple countries. Family counts in the Lens are of the simple form (e.g. DOCDB) although an extended family setting is available (but not documented and pending further investigation). 
+
+`rank_citing` and `rank_family` are the main ranking arguments and **cannot** (logically) be used together in the same query. 
+
+If we wanted to identify the top cited documents across a range of terms in the title, abstract or claims ("tac") we would use the synthetic biology terms created above and add the argument `rank_citing = TRUE`. Behind the scenes, this function performs the search for the set of documents using the terms, and then ranks the results on the count of citing documents. 
+
+```{r synbio_citing}
+synbio_citing <- lens_search(synbio, boolean = "OR", type = "tac", rank_citing = TRUE)
+synbio_citing
+```
+
+From this we can see that the top cited document received 109 citations for `Engineered Co2 Fixing Microorganisms Producing Carbon-based Products of Interest` in a patent application published in 2009 from Joule Biotechnologies.
+
+A different picture will normally emerge when we rank the data by family using `rank_family = TRUE`. 
+
+```{r synbio_family}
+synbio_family <- lens_search(synbio, boolean = "OR", type = "tac", rank_family = TRUE)
+synbio_family
+```
+
+In choosing the family ranking we observe that the largest family contains 45 members (with zero citations) for an `Endoprosthesis With Long-term Stability`. Pasting the lens_id into a browser reveals that this Australian application claims "The use of an active substance complex for creating biological parts, in particular organs for living organisms...". Those familiar with this field may think there is a possible need to adjust the search terms, in this case for the wider use of the term "biological parts" in biomedical engineering.
+
+The importance of these ranking exercises is that they reveal the most important documents. However, bear in mind that these will typically be older documents (that have had time to accumulate citations or, to a lesser extent, larger family sizes). For that reason, a workflow would commonly include a review of recent publications using a date range delimiter, perhaps focusing on those that are beginning to attract citations or where a family size greater than 5 or 10 documents is observed.  
+
+### Retrieving multiple pages
+
+`lensr` is not intended for large scale data retrieval in the absence of a Lens API. However, it is possible to retrieve more than 50 documents using `lens_search` and the `results` argument. In order to address potential lock out by the server it is recommended to use a slow timer setting (the default is 20 seconds per query). The reason for this is that `lens_search` (through the underlying url constructor `lens_urls()` and url iterator `lens_iterate()`) will retrieve 50 results for a query, then request the next 50 results and so on upto a maximum of 500. 
+
+In the query below we use a single search term for the title, abstract or claims ("tac") and rank the results by citing. We also request 150 results (which will be ranked by citing) and set the timer to 30 seconds between the 3 requests. 
+
+```{r}
 library(dplyr)
-df1 <- lens_search(query = synbio, boolean = "OR", type = "tac")
+onefifty <- lens_search("drones", type = "tac", results = 150, timer = 30)
+onefifty
 ```
 
-The package is under active early stage development and will be updated to address consistency and errors.
+
+```{r}
+library(dplyr)
+test <- lens_urls("drones", type = "tac", rank_citing = TRUE, results = 300, timer = 30) %>%
+  lens_iterate(lens_parse) %>% 
+  bind_rows()
+```
+
+## Round Up
+
+`lensr` is an early stage package to provide access to the Lens patent database. It allows for the construction of complex queries and for the most important patent documents to be retrieved. It is not intended for large scale data although we hope that in future it will be possible to login to the service to retrieve data using the Collections function. 
+
+In future releases the idea is to add the following features. 
+
+1. Select the jurisdiction or jurisdictions for search (as in the existing user interface)
+2. Add International Patent Classification Search. 
+3. Enable login from R and the ability to create and download Collections.

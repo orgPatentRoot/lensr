@@ -1,5 +1,5 @@
 #' @title Search the Lens using International Patent Classification (IPC) codes
-#' @description Search the Lens using individual or combinations of IPC Codes.
+#' @description Search the Lens using individual or combinations of IPC Codes. Note this function is experimental. IPC based searching is not convincing in the Lens at present (for example try entering medical preparation into the full text search field and the code A61K subclass (for medical preparations) and the result is 79). Further investigation and clarification is required.
 #' @param ipc An ipc code or vector of codes (character)
 #' @param ipc_boolean "AND" or "OR" (quoted)
 #' @details IPC codes on the group level must include a forward slash e.g.
@@ -7,9 +7,13 @@
 #'   slash is not necessary on the subclass level e.g. A61K or C12N.
 #' @return a url
 #' @export
-#' @examples \dontrun{lens_ipc(A61K31/00)}
-#' @examples \dontrun{lens_ipc(c("A61K31/00", "C12N15/82"), boolean = "AND")}
-#' @examples \dontrun{lens_ipc(c("A61K31/00", "C12N15/82"), boolean = "OR")}
+#' @importFrom stringr str_detect
+#' @importFrom stringr str_replace_all
+#' @importFrom stringr str_c
+#' @examples \dontrun{lens_ipcs(A61K31/00)}
+#' @examples \dontrun{lens_ipcs(c("A61K31/00", "C12N15/82"), ipc_boolean = "AND")}
+#' @examples \dontrun{lens_ipcs(c("A61K31/00", "C12N15/82"), ipc_boolean = "OR")}
+#' @examples \dontrun{lens_ipcs(c("A61K", "C12N"), ipc_boolean = "OR")}
 lens_ipcs <- function(ipc, ipc_boolean = "NULL"){
   baseurl <- "https://www.lens.org/lens/search?q="
   start <- "classification_ipcr%3A"
@@ -23,8 +27,7 @@ lens_ipcs <- function(ipc, ipc_boolean = "NULL"){
   if(ipc_length > 4 && ipc_test == FALSE){
     ipc_length
     ipc_test
-    message <- "ipc at group or subgroup level must contain a forward slash /"
-    print(message)
+    message("ipc at group or subgroup level must contain a forward slash /")
   }
   if(ipc_length == 1){
     baseurl

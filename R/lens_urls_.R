@@ -1,4 +1,4 @@
-#' @title Generate urls to search the Lens Patent Database
+#' @title Internal version of lens_urls
 #' @description This function builds urls to search the Lens patent database. It is used internally in the lens_search() function. The default search groups documents by family and will return up to 50 results per page. The maximum number of results that can be retrieved is 500 (10 pages). For larger results sets use the free Lens online Collection facility to download upto 10,000 records. See details for information on the use of ranking and date measures to sort the data.
 #' @param query A search string or vector of search terms (quoted)
 #' @param boolean Select the type of boolean ("OR" or "AND") where using multiple search terms.
@@ -56,7 +56,7 @@
 #' @examples \dontrun{lens_urls(synbio, boolean = "OR", type = "abstract", rank_family = TRUE)}
 #' @examples \dontrun{lens_urls(synbio, boolean = "OR", type = "tac", rank_family = TRUE)}
 #' @examples \donrun{lens_urls(synbio, boolean = "OR", type = "tac", rank_citing = TRUE)}
-lens_urls <- function(query, boolean = "NULL", type = "NULL", applicant = NULL, applicant_boolean = "NULL", inventor = NULL, inventor_boolean = "NULL", publn_date_start = NULL, publn_date_end = NULL, filing_date_start = NULL, filing_date_end = NULL, rank_family = "NULL", rank_citing = "NULL", rank_sequences = "NULL", rank_latest_publn = "NULL", rank_earliest_publn = "NULL", rank_latest_filing = "NULL", rank_earliest_filing = "NULL", jurisdiction = "NULL", families = "NULL", timer = 20, results = NULL, stemming = FALSE){
+lens_urls_ <- function(query, boolean = "NULL", type = "NULL", applicant = NULL, applicant_boolean = "NULL", inventor = NULL, inventor_boolean = "NULL", publn_date_start = NULL, publn_date_end = NULL, filing_date_start = NULL, filing_date_end = NULL, rank_family = "NULL", rank_citing = "NULL", rank_sequences = "NULL", rank_latest_publn = "NULL", rank_earliest_publn = "NULL", rank_latest_filing = "NULL", rank_earliest_filing = "NULL", jurisdiction = "NULL", families = "NULL", timer = 20, results = NULL, stemming = "NULL"){
   baseurl <- "https://www.lens.org/lens/search?q="
   # To add document_type="NULL"
   # add patent type searches (use lens name) and use applications and grants as default
@@ -177,38 +177,38 @@ length_jur <- nchar(jurisdiction)
     query <- paste0(query, families_string)
   }
   # Add stemming control
-  if(stemming == FALSE){
-  stemming <- "&st=false"
-  query <- paste0(query, stemming)
-  }
+  # if(stemming == FALSE){
+  # stemming <- "&st=false"
+  # query <- paste0(query, stemming)
+  # }
   # create consistent default for number of results where <= 50 or NULL.
-  if(is.null(results)){
-    baseurl <- "https://www.lens.org/lens/search?q="
-    fifty <- "&n=50"
-    query <- paste0(baseurl, query, fifty)
-  } else if(results == 50){
-    baseurl <- "https://www.lens.org/lens/search?q="
-    fifty <- "&n=50"
-    query <- paste0(baseurl, query, fifty)
-    # where less than 50, call page of 50 anyway
-  } else if(results < 50){
-    baseurl <- "https://www.lens.org/lens/search?q="
-    fifty <- "&n=50"
-    query <- paste0(baseurl, query, fifty)
-  }
-  # adding pages url. Lens starts counting at 0 pages, use ceiling and -1
-  if(!is.null(results) && results > 50){
-     if(results <= 500){
-       message("returning values specified in results", appendLF = TRUE)
-       baseurl_pages <- "https://www.lens.org/lens/search?p="
-       q <- "&q="
-       fifty <- "&n=50"
-       total <- ceiling(results / 50) - 1
-       query <- paste0(baseurl_pages, seq(0, as.numeric(total)), q, query, fifty)
-     }
-     if(results > 500 && results > 500){
-       message("More than 500 families, only 500 can be returned. Try using date ranges in lens_count to break the data into chunks of 500 or less", appendLF = TRUE)
-     }
-  }
+  # if(is.null(results)){
+  #   #baseurl <- "https://www.lens.org/lens/search?q="
+  #   fifty <- "&n=50"
+  #   query <- paste0(baseurl, query, fifty)
+  # } else if(results == 50){
+  #   baseurl <- "https://www.lens.org/lens/search?q="
+  #   fifty <- "&n=50"
+  #   query <- paste0(baseurl, query, fifty)
+  #   # where less than 50, call page of 50 anyway
+  # } else if(results < 50){
+  #   baseurl <- "https://www.lens.org/lens/search?q="
+  #   fifty <- "&n=50"
+  #   query <- paste0(baseurl, query, fifty)
+  # }
+  # # adding pages url. Lens starts counting at 0 pages, use ceiling and -1
+  # if(!is.null(results) && results > 50){
+  #    if(results <= 500){
+  #      message("returning values specified in results", appendLF = TRUE)
+  #      baseurl_pages <- "https://www.lens.org/lens/search?p="
+  #      q <- "&q="
+  #      fifty <- "&n=50"
+  #      total <- ceiling(results / 50) - 1
+  #      query <- paste0(baseurl_pages, seq(0, as.numeric(total)), q, query, fifty)
+  #    }
+  #    if(results > 500 && results > 500){
+  #      message("More than 500 families, only 500 can be returned. Try using date ranges in lens_count to break the data into chunks of 500 or less", appendLF = TRUE)
+  #    }
+  # }
    query
 }

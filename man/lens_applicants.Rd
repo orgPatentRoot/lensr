@@ -4,12 +4,15 @@
 \alias{lens_applicants}
 \title{Search patent applicant names in the Lens}
 \usage{
-lens_applicants(applicant = NULL, applicant_boolean = "NULL")
+lens_applicants(applicant = "NULL", applicant_boolean = "NULL",
+  baseurl = "NULL")
 }
 \arguments{
 \item{applicant}{an applicant name or vector of applicant names (character)}
 
 \item{applicant_boolean}{OR or AND operators}
+
+\item{baseurl}{logical, used by lens_urls to exclude the baseurl during url construction with query, inventors, ipcs etc.}
 }
 \value{
 a URL
@@ -18,6 +21,6 @@ a URL
 Search for patent applicant names in the Lens patent database.
 }
 \examples{
-\dontrun{lens_applicant("Synthetic Genomics")}
+\dontrun{lens_applicants("Synthetic Genomics")}
 }
 

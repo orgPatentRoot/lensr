@@ -4,10 +4,12 @@
 \alias{lens_iterate}
 \title{Iterate over lens urls and return a data.frame}
 \usage{
-lens_iterate(x, timer = 20)
+lens_iterate(x, f, timer = 20)
 }
 \arguments{
 \item{x}{A vector of urls (see lens_urls)}
+
+\item{f}{function from lensr to use within iterate e.g. lens_parse.}
 
 \item{timer}{(numeric) Delay between each request to the Lens. 20 seconds as the default which may be a little slow.}
 }
@@ -18,6 +20,6 @@ a data.frame
 Used internally in lens_search. Takes a set of urls generared by lens_urls() and uses lapply to fetch the raw data and converts it to a data.frame using lens_parse(). The lists of data.frames are bound using dplyr::bind_rows().
 }
 \examples{
-\dontrun{df <- lens_iterate(three_urls, timer = 30)}
+\dontrun{df <- lens_iterate_new(three_urls, lens_parse, timer = 10)}
 }
 

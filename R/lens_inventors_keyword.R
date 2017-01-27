@@ -9,11 +9,11 @@
 #' @export
 #' @importFrom stringr str_replace_all
 #' @importFrom stringr str_c
-#' @examples \dontrun{lens_inventor_keyword("Kerr Russell", query = "bahamas")}
-#' @examples \dontrun{lens_inventor_keyword(inventor = "Pomponi Shirley", query = "bahamas")}
-#' @examples \dontrun{lens_inventor_keyword(inventor = auth, inventor_boolean = "OR", query = synbio, type = "tac", boolean = "OR")}
-#' @examples \dontrun{lens_inventor_keyword(inventor = "Venter Craig", query = c("synthetic genomes", "synthetic genomics"), type = "tac", boolean = "OR")}
-#' @examples \dontrun{lens_inventor_keyword(inventor = "Venter Craig", query = country$country_name, boolean = "OR")}
+#' @examples \dontrun{lens_inventors_keyword("Kerr Russell", query = "bahamas")}
+#' @examples \dontrun{lens_inventors_keyword(inventor = "Pomponi Shirley", query = "bahamas")}
+#' @examples \dontrun{lens_inventors_keyword(inventor = auth, inventor_boolean = "OR", query = synbio, type = "tac", boolean = "OR")}
+#' @examples \dontrun{lens_inventors_keyword(inventor = "Venter Craig", query = c("synthetic genomes", "synthetic genomics"), type = "tac", boolean = "OR")}
+#' @examples \dontrun{lens_inventors_keyword(inventor = "Venter Craig", query = country$country_name, boolean = "OR")}
 lens_inventors_keyword <- function(inventor = "NULL", inventor_boolean = "NULL", query = "NULL", type = "NULL", boolean = "NULL"){
    andlink <- "+%26%26+"
    # build the inventor query and add the bridge link to text search
@@ -61,17 +61,3 @@ lens_inventors_keyword <- function(inventor = "NULL", inventor_boolean = "NULL",
    out <- paste0(inv_query, query, end)
 }
 
-# should be something like
-#
-# if(!is.null(inventor) && !is.null(query)){
-#   inv_query <- lens_inventor(inventor)
-#   query <- lens_urls(query, type, boolean)
-#   query <- stringr::str_split(query, "=", n = 2)
-#   query <- paste0(query[[1]][[2]])
-#   out <- stringr::str_c(inv_query, query, collapse = TRUE)
-# }
-
-#concept
-#1. paste inventors first
-#2. then paste the search query and any additional controls onto the inventor URL. So first I need the inventor URL as my basis. Then I work out how to add the text element and controls.
-# add applicant option

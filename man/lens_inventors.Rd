@@ -18,6 +18,6 @@ a url
 Search the lens using one or more inventor names
 }
 \examples{
-\dontrun{(lens_inventor("Venter Craig"))}
+\dontrun{(lens_inventors("Venter Craig"))}
 }
 

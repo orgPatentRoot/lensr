@@ -15,7 +15,7 @@ lens_ipcs(ipc, ipc_boolean = "NULL")
 a url
 }
 \description{
-Search the Lens using individual or combinations of IPC Codes.
+Search the Lens using individual or combinations of IPC Codes. Note this function is experimental. IPC based searching is not convincing in the Lens at present (for example try entering medical preparation into the full text search field and the code A61K subclass (for medical preparations) and the result is 79). Further investigation and clarification is required.
 }
 \details{
 IPC codes on the group level must include a forward slash e.g.
@@ -23,6 +23,6 @@ IPC codes on the group level must include a forward slash e.g.
   slash is not necessary on the subclass level e.g. A61K or C12N.
 }
 \examples{
-\dontrun{lens_ipc(A61K31/00)}
+\dontrun{lens_ipcs(A61K31/00)}
 }
 

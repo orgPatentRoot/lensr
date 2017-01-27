@@ -17,5 +17,4 @@ test_that("blank applicant cases are working", {
 test_that("full text with no family works", {
   ls <- lens_urls("drones", families = FALSE) %>% lens_parse()
   expect_is(ls, "data.frame")
-  #stringr::str_detect(lsb$applicants, "-") # could add some kind of true false test for the marker here.
 })

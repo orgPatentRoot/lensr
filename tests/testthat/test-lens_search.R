@@ -1,26 +1,44 @@
-#tests for lens searches
+#tests for lens search
 context("lens_search function")
+
+# for url tests see test-lens_urls
+
+test_that("inventor, applicant and query combination works", {
+  lsa <- lens_search(query = "synthetic genomics", inventor = "Venter Craig", applicant = "Synthetic Genomics", timer = 5)
+  expect_is(lsa, "data.frame")
+})
+# expect families = 11. Note that above returns families only.
 
 test_that("inventor and query combination works", {
   lsa <- lens_search(inventor = "donald", query = "duck", timer = 5)
   expect_is(lsa, "data.frame")
 })
 
+test_that("inventor and query combination works", {
+  lsa <- lens_search(inventor = "Venter Craig", query = "synthetic genomics", timer = 5)
+  expect_is(lsa, "data.frame") # was data frame and not understanding change
+})
+
+test_that("multiple inventor and query combination works", {
+  lsa <- lens_search(inventor = c("Venter Craig", "Smith Hamilton"), inventor_boolean = "OR", query = "synthetic genomics", timer = 5)
+  expect_is(lsa, "data.frame") # was data frame and not understanding change
+})
+
 test_that("applicant and query combination works", {
   lsb <- lens_search(applicant = "Synthetic Genomics", query = "synthetic genomics", timer = 5)
   expect_is(lsb, "data.frame") # look at url and output here
-})
+}) # was data frame and not understanding change
 
-test_that("query alone works", {
+test_that("query only works", {
   lsc <- lens_search(query = "duck", timer = 5)
   expect_is(lsc, "data.frame")
 })
 
-# test_that("query applicant inventor works with tac and families", {
-#   lsc <- lens_search(synbio, boolean = "OR", type = "tac", inventor = "Venter Craig", applicant = "Synthetic Genomics", families = TRUE, timer = 5)
-#   expect_is(lsc, "data.frame")
-# })
-#
+test_that("query applicant inventor works with type and families", {
+  lsd <- lens_search(synbio, boolean = "OR", type = "tac", inventor = "Venter Craig", applicant = "Synthetic Genomics", families = TRUE, timer = 5)
+  expect_is(lsd, "data.frame")
+})
+
 # "https://www.lens.org/lens/search?q=inventor%3A%22Venter+Craig%22~2+%26%26+applicant%3A%28%22Synthetic+Genomics%22%29+%26%26+%28title%3A%28%22synthetic+biology%22+%7C%7C+%22synthetic+genomics%22+%7C%7C+%22synthetic+genome%22+%7C%7C+%22synthetic+genomes%22+%7C%7C+%22biological+parts%22+%7C%7C+%22genetic+circuit%22+%7C%7C+%22genetic+circuits%22%29+%7C%7C+abstract%3A%28%22synthetic+biology%22+%7C%7C+%22synthetic+genomics%22+%7C%7C+%22synthetic+genome%22+%7C%7C+%22synthetic+genomes%22+%7C%7C+%22biological+parts%22+%7C%7C+%22genetic+circuit%22+%7C%7C+%22genetic+circuits%22%29+%7C%7C+claims%3A%28%22synthetic+biology%22+%7C%7C+%22synthetic+genomics%22+%7C%7C+%22synthetic+genome%22+%7C%7C+%22synthetic+genomes%22+%7C%7C+%22biological+parts%22+%7C%7C+%22genetic+circuit%22+%7C%7C+%22genetic+circuits%22%29%29&n=50&f=true"
 
 
