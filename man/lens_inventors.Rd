@@ -19,5 +19,5 @@ Search the lens using one or more inventor names
 }
 \examples{
 \dontrun{(lens_inventors("Venter Craig"))}
+\dontrun{lens_inventors(three_authors)}
 }
-

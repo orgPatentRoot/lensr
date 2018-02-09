@@ -22,4 +22,3 @@ search for author names in the text of patent documents using the Lens.
 \examples{
 \dontrun{lens_authors("Venter Craig")}
 }
-

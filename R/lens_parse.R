@@ -24,12 +24,14 @@
 #' @examples \dontrun{data <- lens_urls(synbio, boolean = "OR") %>% lens_parse()}
 lens_parse <- function(data){
   html <- xml2::read_html(data)
+
   # extract publications, remove any blankrow
   publication_numbers_lens <- rvest::html_nodes(html, ".link") %>%
     rvest::html_text() %>%
     stringr::str_trim(side = "both") %>%
     stringr::str_replace_all(" ", "_")
-  publication_numbers_lens <- publication_numbers_lens[publication_numbers_lens !=""]
+  publication_numbers_lens <- publication_numbers_lens[publication_numbers_lens != ""]
+
   # reformat for lens upload, create link, create numbers
   publication_reformat <- stringr::str_replace_all(publication_numbers_lens, "/", "_")
   publication_link <- paste0("https://www.lens.org/lens/patent/", publication_reformat)

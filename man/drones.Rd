@@ -13,4 +13,3 @@ A character vector containing four search terms for drone technology (with the o
 drones  <- c("drone", "drones", "Unmanned Aerial Vehicle", "UAV")
 }
 \keyword{datasets}
-

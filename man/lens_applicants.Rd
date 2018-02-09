@@ -2,7 +2,7 @@
 % Please edit documentation in R/lens_applicants.R
 \name{lens_applicants}
 \alias{lens_applicants}
-\title{Search patent applicant names in the Lens}
+\title{Generate a URL to Search patent applicant names}
 \usage{
 lens_applicants(applicant = "NULL", applicant_boolean = "NULL",
   baseurl = "NULL")
@@ -18,9 +18,8 @@ lens_applicants(applicant = "NULL", applicant_boolean = "NULL",
 a URL
 }
 \description{
-Search for patent applicant names in the Lens patent database.
+Create a URL to search for patent applicant names in the Lens patent database.
 }
 \examples{
 \dontrun{lens_applicants("Synthetic Genomics")}
 }
-

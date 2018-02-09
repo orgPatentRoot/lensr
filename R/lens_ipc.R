@@ -24,28 +24,28 @@ lens_ipcs <- function(ipc, ipc_boolean = "NULL"){
   ipc_length <- length(ipc)
   ipc_test <- stringr::str_detect(ipc, "/")
   #test if ipc at group and subgroup level contains /. Not working at present
-  if(ipc_length > 4 && ipc_test == FALSE){
+  if (ipc_length > 4 && ipc_test == FALSE) {
     ipc_length
     ipc_test
     message("ipc at group or subgroup level must contain a forward slash /")
   }
-  if(ipc_length == 1){
+  if (ipc_length == 1) {
     baseurl
     start
     ipc <- stringr::str_replace_all(ipc, "/", "%5C%2F")
     query <- paste0(baseurl, start, ipc)
   }
-  if(ipc_length > 1){
+  if (ipc_length > 1) {
     query <- stringr::str_replace_all(ipc, "/", "%5C%2F")
   }
-  if(ipc_boolean == "OR"){
+  if (ipc_boolean == "OR") {
     baseurl
     start
     orlink
     query <- stringr::str_c(query, collapse = orlink)
     query <- paste0(baseurl, start, query)
     }
-  if(ipc_boolean == "AND"){
+  if (ipc_boolean == "AND") {
     baseurl
     start
     andlink

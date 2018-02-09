@@ -32,4 +32,3 @@ lens_query_("kenya", "AND", "crater lake"),
 # restrict results to families
 lens_query_("kenya", "AND", "crater lake", families = TRUE)}
 }
-

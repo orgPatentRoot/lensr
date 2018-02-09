@@ -24,5 +24,7 @@ IPC codes on the group level must include a forward slash e.g.
 }
 \examples{
 \dontrun{lens_ipcs(A61K31/00)}
+\dontrun{lens_ipcs(c("A61K31/00", "C12N15/82"), ipc_boolean = "AND")}
+\dontrun{lens_ipcs(c("A61K31/00", "C12N15/82"), ipc_boolean = "OR")}
+\dontrun{lens_ipcs(c("A61K", "C12N"), ipc_boolean = "OR")}
 }
-

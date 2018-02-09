@@ -1,7 +1,7 @@
 #note NULL rather than "NULL" issue for later with lens search
 
-#' @title Search patent applicant names in the Lens
-#' @description Search for patent applicant names in the Lens patent database.
+#' @title Generate a URL to Search patent applicant names
+#' @description Create a URL to search for patent applicant names in the Lens patent database.
 #' @param applicant an applicant name or vector of applicant names (character)
 #' @param applicant_boolean OR or AND operators
 #' @param baseurl logical, used by lens_urls to exclude the baseurl during url construction with query, inventors, ipcs etc.
@@ -13,24 +13,24 @@
 lens_applicants <- function(applicant = "NULL", applicant_boolean = "NULL", baseurl = "NULL"){
   #changed appicant NULL to "NULL"
 
-  if(!is.null(applicant) && baseurl == TRUE || baseurl == "NULL"){
+  if (!is.null(applicant) && baseurl == TRUE || baseurl == "NULL") {
     baseurl <- "https://www.lens.org/lens/search?q="
     start <- "applicant%3A%28%22"
     end <- "%22%29"
     orlink <- "%22%29+%7C%7C+applicant%3A%28%22"
     andlink <- "%22%29+%26%26+applicant%3A%28%22"
     applicant_length <- length(applicant)
-    if(applicant_length == 1){
+    if (applicant_length == 1) {
       start
       end
       query <- stringr::str_replace_all(applicant, " ", "+")
       query <- stringr::str_c(baseurl, start, query, end)
       query
     }
-    if(applicant_length > 1){
+    if (applicant_length > 1) {
       query <- stringr::str_replace_all(applicant, " ", "+")
     }
-    if(applicant_boolean == "OR"){
+    if (applicant_boolean == "OR") {
       start
       orlink
       end
@@ -38,7 +38,7 @@ lens_applicants <- function(applicant = "NULL", applicant_boolean = "NULL", base
       query <- stringr::str_c(query, end)
       query <- paste0(baseurl, start, query)
     }
-    if(applicant_boolean == "AND"){
+    if (applicant_boolean == "AND") {
       start
       andlink
       end
@@ -46,7 +46,7 @@ lens_applicants <- function(applicant = "NULL", applicant_boolean = "NULL", base
       query <- stringr::str_c(query, end)
       query <- paste0(baseurl, start, query)
     }
-    if(applicant_length > 1 & applicant_boolean == "NULL"){ # defaults to OR
+    if (applicant_length > 1 & applicant_boolean == "NULL") { # defaults to OR
       start
       orlink
       end

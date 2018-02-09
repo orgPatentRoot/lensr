@@ -25,11 +25,11 @@ lens_query_ <- function(query, boolean, q1, stemming = FALSE, families = "NULL")
   out <- paste0(tmpbaseurl, query, connector, openbr, q1, closebr)
   # the above is what I want as a query. I now need to add in the controls at the end of the query
 
-  if(families == TRUE){
+  if (families == TRUE) {
     families_string <- "&f=true"
     out <- paste0(out, families_string)
   }
-  if(stemming == FALSE){
+  if (stemming == FALSE) {
   stemming <- "&st=false"
   out <- paste0(out, stemming)
   } else (out)

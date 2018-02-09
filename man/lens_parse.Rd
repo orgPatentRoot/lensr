@@ -28,5 +28,5 @@ By default Lens returns publication numbers as e.g. "WO 2015/199614 A1"
 }
 \examples{
 \dontrun{df <- lens_urls("drones")}
+\dontrun{data <- lens_urls(synbio, boolean = "OR") \%>\% lens_parse()}
 }
-

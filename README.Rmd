@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+library(tidyverse)
 ```
 [![Travis-CI Build Status](https://travis-ci.org/poldham/lensr.svg?branch=master)](https://travis-ci.org/poldham/lensr)
 [![codecov.io](https://codecov.io/github/poldham/lensr/coverage.svg?branch=master)](https://codecov.io/github/poldham/lensr?branch=master)
@@ -143,6 +144,7 @@ There are two types of year available in the Lens. `filing_year` and `publicatio
 To restrict counts by publication year (publn) we need to specify start date (publn_date_start) and the publication date
 
 ```{r publn_year}
+library(tidyverse)
 lens_count("drones", publn_date_start = 19900101, publn_date_end = 20001231) %>% print()
 ```
 
@@ -175,6 +177,7 @@ drones <- lens_search("drones", type = "tac", families = TRUE, timer = 20)
 drones
 ```
 
+Note that by default the lens returns patent numbers with an underscore separator between the country code (e.g. US) and then a `_` in addition forward slashes are preserved in the number and an underscore separates the kind code at the end. To assist with the use of the numbers in other databases the publications_numbers field is added that concatenates the country and the kind code and removes the forward slash. While this approach should work in most databases if transferring the numbers as inputs to another database experimentation may be needed to ensure data capture. 
 
 ### Search using key terms, applicants and inventors
 

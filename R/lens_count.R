@@ -2,8 +2,8 @@
 #' @description Used for testing only. Returns the results from a query to the Lens. Useful for working out the overall number of results from a query for refinement or download.
 #' @param query One or more terms to search in the patent database.
 #' @param boolean Select the type of boolean ("OR" or "AND") where using multiple search terms.
-#' @param type Either fulltext (default), title, abstract, claims, or title,
-#'   abstract and claims (tac). Quoted.
+#' @param type Either fulltext (default), title, abstract, claims, or title &
+#'   abstract & claims (tac). Quoted.
 #' @param applicant An applicant name or vector of applicant names
 #' @param applicant_boolean "AND" or "OR".
 #' @param inventor An inventor name or vector of inventor names.
@@ -44,9 +44,9 @@ lens_count <- function(query, boolean = "NULL", type = "NULL", applicant = NULL,
   # return from lens_urls will always be length 1 but user may be seeking table of results on each term in vector. Enabled by length_query and if statements.
   length_query <- length(query)
   #length 1 search term or where boolean converts to length 1.
-  if(length_query == 1 || boolean == "OR" || boolean == "AND"){ # boolean converts strings to length 1. Where + 1 test if boolean OR or AND have been selected and proceed as for ==1.
+  if (length_query == 1 || boolean == "OR" || boolean == "AND") { # boolean converts strings to length 1. Where + 1 test if boolean OR or AND have been selected and proceed as for ==1.
     restrict_families <- stringr::str_detect(myquery, "&f=true")
-    if(restrict_families == TRUE){
+    if (restrict_families == TRUE) {
       html <- xml2::read_html(myquery)
       publications <- "NA"
       families <- rvest::html_nodes(html, ".resultCount") %>%
@@ -58,7 +58,7 @@ lens_count <- function(query, boolean = "NULL", type = "NULL", applicant = NULL,
           as.character()
       df <- tibble::tibble(publications, families, search)
     }
-    if(restrict_families == FALSE){
+    if (restrict_families == FALSE) {
       html <- xml2::read_html(myquery)
       detect_families <- stringr::str_detect(html, "</a> families[)]")
        publications <- rvest::html_nodes(html, ".resultCount") %>%
@@ -70,7 +70,7 @@ lens_count <- function(query, boolean = "NULL", type = "NULL", applicant = NULL,
          stringr::str_extract_all("[[:digit:]]+") %>%
          as.numeric()
        # Where results returned are small only results and no families will appear in html.
-         if(detect_families == FALSE){
+         if (detect_families == FALSE) {
            message("families not present, copying publications to families. If numbers are over 10 you may wish to check the query.")
            families <- publications
          }
@@ -81,8 +81,8 @@ lens_count <- function(query, boolean = "NULL", type = "NULL", applicant = NULL,
     }
   }
     #cases where a boolean not used returns data frame with one row per term.
-  if(length_query > 1){
-    if(boolean == "NULL"){
+  if (length_query > 1) {
+    if (boolean == "NULL") {
       df <- lens_iterate(query, lens_count, timer) %>%
         dplyr::bind_rows()
     }
@@ -96,5 +96,5 @@ lens_count <- function(query, boolean = "NULL", type = "NULL", applicant = NULL,
   # df
   #myquery
   closeAllConnections()
-  return(df)
+  df
 }

@@ -1,5 +1,6 @@
 if(getRversion() >= "3.1.0") utils::suppressForeignCheck(".")
 
+# delay calls
 #From Hadley Wickham Advanced R. Used in lens_iterate.
 
 delay_by <- function(delay, f) {
@@ -263,94 +264,94 @@ lens_urls_ <- function(query, boolean = "NULL", type = "NULL", applicant = NULL,
   # Add stemming on off &st=false default is as is below
   # Format the query string depending on presence of spaces, length & boolean choices
   length <- length(query)
-  if(length == 1){
+  if (length == 1) {
     query <- stringr::str_replace_all(query, " ", "+")
   }
-  if(length > 1){
+  if (length > 1) {
     query <- stringr::str_replace_all(query, " ", "+")
   }
-  if(boolean == "OR"){
+  if (boolean == "OR") {
     query <- stringr::str_c(query, collapse = "%22+%7C%7C+%22")
   }
-  if(boolean == "AND"){
+  if (boolean == "AND") {
     query <- stringr::str_c(query, collapse = "%22+%26%26+%22")
   }
-  if(type == "NULL"){
+  if (type == "NULL") {
     query <- paste0("%22", query, "%22")
   }
-  if(type == "title"){
+  if (type == "title") {
     query <- paste0("title%3A%28%22", query, "%22%29")
   }
-  if(type == "abstract"){
+  if (type == "abstract") {
     query <- paste0("abstract", "%3A%28%22", query, "%22%29")
   }
-  if(type == "claims"){
+  if (type == "claims") {
     query <- paste0("claims", "%3A%28%22", query, "%22%29")
   }
-  if(type == "fulltext"){
+  if (type == "fulltext") {
     query <- paste0("%22", query, "%22")
   }
-  if(type == "tac") {
+  if (type == "tac") {
     query <- paste0("%28title%3A%28%22", query, "%22%29+%7C%7C+abstract%3A%28%22", query, "%22%29+%7C%7C+claims%3A%28%22", query, "%22%29%29")
   }
   # applicant controls
-  if(!is.null(applicant)){
+  if (!is.null(applicant)) {
     applicants_string <- applicants_url(applicant = applicant, applicant_boolean = applicant_boolean)
     connector_str <- "+%26%26+"
     query <- paste0(query, connector_str, applicants_string)
   }
   # inventor controls
-  if(!is.null(inventor)){
+  if (!is.null(inventor)) {
     inventor_string <- inventors_url(inventor = inventor, inventor_boolean = inventor_boolean)
     connector_str <- "+%26%26+"
     query <- paste0(query, connector_str, inventor_string)
   }
   # full date sequence
-  if(is.numeric(publn_date_start)){
+  if (is.numeric(publn_date_start)) {
     query <- paste0(query, "&dates=%2Bpub_date%3A", publn_date_start)
   }
-  if(is.numeric(publn_date_end)){
+  if (is.numeric(publn_date_end)) {
     query <- paste0(query, "-", publn_date_end)
   }
-  if(is.numeric(filing_date_start)){
+  if (is.numeric(filing_date_start)) {
     query <- paste0(query, "&dates=%2Bfiling_date%3A", filing_date_start)
   }
-  if(is.numeric(filing_date_end)){
+  if (is.numeric(filing_date_end)) {
     query <- paste0(query, "-", filing_date_end)
   }
   # Add ranking arguments to the search string
-  if(rank_citing == TRUE){
+  if (rank_citing == TRUE) {
     rank_citing <- "&s=citing_pub_key_count&d=-"
     query <- paste0(query, rank_citing)
   }
-  if(rank_family == TRUE){
+  if (rank_family == TRUE) {
     rank_family <- "&s=simple_family_size&d=-"
     query <- paste0(query, rank_family)
   }
-  if(rank_sequences == TRUE){
+  if (rank_sequences == TRUE) {
     rank_sequences <- "&s=sequence_count&d=-"
     query <- paste0(query, rank_sequences)
   }
-  if(rank_latest_publn == TRUE){
+  if (rank_latest_publn == TRUE) {
     latest_publication <- "&s=pub_date&d=-"
     query <- paste0(query, latest_publication)
   }
-  if(rank_earliest_publn == TRUE){
+  if (rank_earliest_publn == TRUE) {
     earliest_publication <- "&s=pub_date&d=%2B"
     query <- paste0(query, earliest_publication)
   }
-  if(rank_latest_filing == TRUE){
+  if (rank_latest_filing == TRUE) {
     latest_filing <- "&s=filing_date&d=-"
     query <- paste0(query, latest_filing)
   }
-  if(rank_earliest_filing == TRUE){
+  if (rank_earliest_filing == TRUE) {
     earliest_filing <- "&s=filing_date&d=%2B"
     query <- paste0(query, earliest_filing)
   }
   # Add jurisdiction
   # Restricted to single or predefined groups at present.
   length_jur <- nchar(jurisdiction)
-  if(!is.null(jurisdiction) && length_jur == 2){
+  if (!is.null(jurisdiction) && length_jur == 2) {
     # &jo=true&j=US
     jur <- "&jo=true&j="
     query <- paste0(query, jur, jurisdiction)
@@ -360,16 +361,16 @@ lens_urls_ <- function(query, boolean = "NULL", type = "NULL", applicant = NULL,
   #   connect <- "&j="
   #   query <- paste0(query, start, jurisdiction, collapse = "&j=")
   # }
-  if(!is.null(jurisdiction) && jurisdiction == "main"){
+  if (!is.null(jurisdiction) && jurisdiction == "main") {
     jur <- "&jo=true&j=EP&j=JP&j=US&j=WO"
     query <- paste0(query, jur)
   }
-  if(!is.null(jurisdiction) && jurisdiction == "ops"){
+  if (!is.null(jurisdiction) && jurisdiction == "ops") {
     jur <- "&jo=true&j=AT&j=CA&j=CH&j=EP&j=GB&j=WO"
     query <- paste0(query, jur)
   }
   # Families control (for URL)
-  if(families == TRUE){
+  if (families == TRUE) {
     families_string <- "&f=true"
     query <- paste0(query, families_string)
   }
@@ -410,19 +411,19 @@ lens_urls_ <- function(query, boolean = "NULL", type = "NULL", applicant = NULL,
   query
 }
 
-# use query and query 1 to paste togethert AND query strings.
+# use query and query 1 to paste together AND query strings.
 query_url <- function(query, boolean = "NULL"){
   length <- length(query)
-  if(length(query) == 1){
+  if (length(query) == 1) {
     query <- stringr::str_replace_all(query, " ", "+")
   }
-  if(length > 1){
+  if (length > 1) {
     query <- stringr::str_replace_all(query, " ", "+")
   }
-  if(boolean == "OR"){
+  if (boolean == "OR") {
     query <- stringr::str_c(query, collapse = "%22+%7C%7C+%22")
   }
-  if(boolean == "AND"){
+  if (boolean == "AND") {
     query <- stringr::str_c(query, collapse = "%22+%26%26+%22")
   }
   query

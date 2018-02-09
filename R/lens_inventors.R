@@ -15,30 +15,30 @@ lens_inventors <- function(inventor = NULL, inventor_boolean = "NULL"){ #note ch
   orlink <- "%22~2+%7C%7C+inventor%3A%22"
   andlink <- "%22~2+%26%26+inventor%3A%22"
   inventor_length <- length(inventor)
-  if(inventor_length == 1){
+  if (inventor_length == 1) {
     start
     end
     query <- stringr::str_replace_all(inventor, " ", "+")
     query <- stringr::str_c(baseurl, start, query, end)
   }
-  if(inventor_length > 1){
+  if (inventor_length > 1) {
     query <- stringr::str_replace_all(inventor, " ", "+")
   }
-  if(inventor_boolean == "OR"){
+  if (inventor_boolean == "OR") {
     start
     orlink
     end
     query <- stringr::str_c(query, collapse = orlink)
     query <- paste0(baseurl, start, query, end)
   }
-  if(inventor_boolean == "AND"){
+  if (inventor_boolean == "AND") {
     start
     andlink
     end
     query <- stringr::str_c(query, collapse = andlink)
     query <- paste0(baseurl, start, query, end)
   }
-  if(inventor_length > 1 && inventor_boolean == "NULL"){ # defaults to OR
+  if (inventor_length > 1 && inventor_boolean == "NULL") { # defaults to OR
     start
     orlink
     end

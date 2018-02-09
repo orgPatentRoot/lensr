@@ -94,8 +94,9 @@ Ranking: Only one ranking measure may be used per query. For example, it is
   This will allow the most recent and the most important documents to be
   retrieved in three steps for a given query.
 
-  @section Inventor Names: In patent documents the convention is to list the surname (family name) and then the first names (given names). Name reversals can and do occur but normal practice is to use <surname, first name then initial> e.g. "Kirk James T" rather than "James T Kirk". However, be warned that there will be variations.
+ Inventor Names: In patent databases the general convention is to list the surname (family name) and then the first names (given names). Name reversals can and do occur but normal practice is to use <surname, first name then initial> e.g. "Kirk James T" rather than "James T Kirk". However, be aware that there will be variations.
 }
+
 \examples{
 \dontrun{lens_search("synthetic biology", timer = 30)
 
@@ -116,4 +117,3 @@ lens_search(query = "synthetic genomics", inventor = "Venter Craig", applicant =
 lens_search(query = "synthetic genomics", inventor = "Venter Craig")
 lens_search(query = "synthetic genomics", applicant = "Synthetic Genomics")}
 }
-

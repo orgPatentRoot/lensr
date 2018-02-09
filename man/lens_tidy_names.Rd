@@ -18,4 +18,3 @@ Converts column names to lower case, spaces to underscores and removes brackets 
 \examples{
 \dontrun{lens_tidy_names(synbio, boolean = "OR", type = "title", rank_family = TRUE)}
 }
-

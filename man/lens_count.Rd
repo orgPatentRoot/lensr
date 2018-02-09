@@ -62,5 +62,5 @@ lens_count(c("drone", "drones"), timer = 5) \%>\% print()
 lens_count(c("drone", "drones"), boolean = "AND", timer = 5) \%>\% print()
 lens_count(synbio, boolean = "OR", type = "tac") \%>\% print()
 lens_count(c("gene drive", "gene drives"), boolean = "OR", families = TRUE, timer = 10) \%>\% print()}
+\dontrun{lens_count(c("gene drive", "gene drives"), boolean = "OR", families = FALSE, timer = 10) \%>\% print()}
 }
-

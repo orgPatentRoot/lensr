@@ -13,4 +13,3 @@ A character vector containing a range of search terms for synthetic biology. Use
 synbio <- c("synthetic biology", "synthetic genomics", "synthetic genome", "synthetic genomes", "biological parts", "genetic circuit", "genetic circuits")
 }
 \keyword{datasets}
-

@@ -55,7 +55,7 @@
 #' @examples \dontrun{lens_urls(synbio, boolean = "OR", type = "title", rank_family = TRUE)}
 #' @examples \dontrun{lens_urls(synbio, boolean = "OR", type = "abstract", rank_family = TRUE)}
 #' @examples \dontrun{lens_urls(synbio, boolean = "OR", type = "tac", rank_family = TRUE)}
-#' @examples \donrun{lens_urls(synbio, boolean = "OR", type = "tac", rank_citing = TRUE)}
+#' @examples \dontrun{lens_urls(synbio, boolean = "OR", type = "tac", rank_citing = TRUE)}
 lens_urls <- function(query, boolean = "NULL", type = "NULL", applicant = NULL, applicant_boolean = "NULL", inventor = NULL, inventor_boolean = "NULL", publn_date_start = NULL, publn_date_end = NULL, filing_date_start = NULL, filing_date_end = NULL, rank_family = "NULL", rank_citing = "NULL", rank_sequences = "NULL", rank_latest_publn = "NULL", rank_earliest_publn = "NULL", rank_latest_filing = "NULL", rank_earliest_filing = "NULL", jurisdiction = "NULL", families = "NULL", timer = 20, results = NULL, stemming = FALSE){
   baseurl <- "https://www.lens.org/lens/search?q="
   # To add document_type="NULL"

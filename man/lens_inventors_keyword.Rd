@@ -12,7 +12,7 @@ lens_inventors_keyword(inventor = "NULL", inventor_boolean = "NULL",
 
 \item{inventor_boolean}{OR or AND}
 
-\item{query}{A search term or set of search terms}
+\item{query}{A search term or vector of search terms}
 
 \item{type}{fulltext = default, "ti" = title, "ab" = abstract, "tac" = title or abstract or claims. See ops_urls for details.}
 
@@ -26,5 +26,8 @@ Use a single inventor name or vector of inventor names with one or more search t
 }
 \examples{
 \dontrun{lens_inventors_keyword("Kerr Russell", query = "bahamas")}
+\dontrun{lens_inventors_keyword(inventor = "Pomponi Shirley", query = "bahamas")}
+\dontrun{lens_inventors_keyword(inventor = auth, inventor_boolean = "OR", query = synbio, type = "tac", boolean = "OR")}
+\dontrun{lens_inventors_keyword(inventor = "Venter Craig", query = c("synthetic genomes", "synthetic genomics"), type = "tac", boolean = "OR")}
+\dontrun{lens_inventors_keyword(inventor = "Venter Craig", query = country$country_name, boolean = "OR")}
 }
-

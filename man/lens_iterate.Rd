@@ -22,4 +22,3 @@ Used internally in lens_search. Takes a set of urls generared by lens_urls() and
 \examples{
 \dontrun{df <- lens_iterate_new(three_urls, lens_parse, timer = 10)}
 }
-

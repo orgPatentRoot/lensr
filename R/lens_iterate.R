@@ -7,6 +7,7 @@
 #' @export
 #' @examples \dontrun{df <- lens_iterate_new(three_urls, lens_parse, timer = 10)}
 lens_iterate <- function(x, f, timer = 20) {
+  # see zzz for dot_every, delay_by
   lens_results <- lapply(x, dot_every(1, delay_by(timer, f)))
   lens_results
 }

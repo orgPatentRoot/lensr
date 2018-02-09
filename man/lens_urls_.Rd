@@ -2,6 +2,7 @@
 % Please edit documentation in R/lens_urls_.R, R/zzz.R
 \name{lens_urls_}
 \alias{lens_urls_}
+\alias{lens_urls_}
 \title{Internal version of lens_urls}
 \usage{
 lens_urls_(query, boolean = "NULL", type = "NULL", applicant = NULL,
@@ -117,5 +118,10 @@ The default connector between fields e.g. key terms and applicants and inventors
 }
 \examples{
 \dontrun{lens_urls("synthetic biology")}
+\dontrun{lens_urls(synbio, boolean = "OR", families = TRUE)}
+\dontrun{lens_urls(synbio, boolean = "AND")}
+\dontrun{lens_urls(synbio, boolean = "OR", type = "title", rank_family = TRUE)}
+\dontrun{lens_urls(synbio, boolean = "OR", type = "abstract", rank_family = TRUE)}
+\dontrun{lens_urls(synbio, boolean = "OR", type = "tac", rank_family = TRUE)}
+\dontrun{lens_urls(synbio, boolean = "OR", type = "tac", rank_citing = TRUE)}
 }
-

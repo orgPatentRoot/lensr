@@ -1,4 +1,4 @@
 #' auth
 #'
-#' A single author/inventor name ("Ventor Craig") for internal use in function tests
+#' A single author/inventor name ("Venter Craig") for internal use in function tests
 "auth"
