@@ -15,8 +15,8 @@ lens_count(query, boolean = "NULL", type = "NULL", applicant = NULL,
 
 \item{boolean}{Select the type of boolean ("OR" or "AND") where using multiple search terms.}
 
-\item{type}{Either fulltext (default), title, abstract, claims, or title,
-abstract and claims (tac). Quoted.}
+\item{type}{Either fulltext (default), title, abstract, claims, or title &
+abstract & claims (tac). Quoted.}
 
 \item{applicant}{An applicant name or vector of applicant names}
 

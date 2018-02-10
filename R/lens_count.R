@@ -37,7 +37,7 @@
 #' @examples \dontrun{lens_count(c("gene drive", "gene drives"), boolean = "OR", families = FALSE, timer = 10) %>% print()}
 lens_count <- function(query, boolean = "NULL", type = "NULL", applicant = NULL, applicant_boolean = "NULL", inventor = NULL, inventor_boolean = "NULL", publn_date_start = NULL, publn_date_end = NULL, filing_date_start = NULL, filing_date_end = NULL, jurisdiction = "NULL", families = "NULL", timer = 20){
 # send to lens_urls to build url
-  myquery <- lens_urls( query, boolean = boolean, type = type, applicant = applicant, applicant_boolean, inventor = inventor, inventor_boolean, publn_date_start = publn_date_start, publn_date_end = publn_date_end, filing_date_start = filing_date_start, filing_date_end = filing_date_end, jurisdiction = jurisdiction, families = families)
+  myquery <- lens_urls(query, boolean = boolean, type = type, applicant = applicant, applicant_boolean, inventor = inventor, inventor_boolean, publn_date_start = publn_date_start, publn_date_end = publn_date_end, filing_date_start = filing_date_start, filing_date_end = filing_date_end, jurisdiction = jurisdiction, families = families)
   print(myquery)
   # need to detect if only families are requested (families = TRUE) as will return only one number not two (this will be families as .resultCount). For consistency of subsetting elsewhere publications as "NA" added to tibble below.
   restrict_families <- stringr::str_detect(myquery, "&f=true")
@@ -52,6 +52,8 @@ lens_count <- function(query, boolean = "NULL", type = "NULL", applicant = NULL,
       families <- rvest::html_nodes(html, ".resultCount") %>%
         rvest::html_text() %>%
         stringr::str_extract_all("[[:digit:]]+") %>%
+        unlist() %>%
+        paste0(collapse = "") %>%
         as.numeric()
       search <- rvest::html_nodes(html, "#previousSearchText") %>%
           rvest::html_text() %>%
@@ -64,10 +66,14 @@ lens_count <- function(query, boolean = "NULL", type = "NULL", applicant = NULL,
        publications <- rvest::html_nodes(html, ".resultCount") %>%
          rvest::html_text() %>%
          stringr::str_extract_all("[[:digit:]]+") %>%
+         unlist() %>%
+         paste0(collapse = "") %>%
          as.numeric()
        families <- rvest::html_nodes(html, ".breadnum:nth-child(4)") %>%
          rvest::html_text() %>%
          stringr::str_extract_all("[[:digit:]]+") %>%
+         unlist() %>%
+         paste0(collapse = "") %>%
          as.numeric()
        # Where results returned are small only results and no families will appear in html.
          if (detect_families == FALSE) {
