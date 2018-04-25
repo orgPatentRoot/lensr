@@ -14,9 +14,9 @@ library(tidyverse)
 
 ## Introduction
 
-This is an early version of an R package to provide access to the basic functions of the [Lens Patent Database](https://www.lens.org/lens/) using R. 
+This R package provides access to the basic functions of the [Lens Patent Database](https://www.lens.org/lens/). 
 
-The Lens provides access to millions of patent records from around the world and allows for searches of the full text (title, abstract, description and claims) of patent documents. We can also search using applicants, inventors and author names and combine searches across different fields. 
+The Lens provides open access to millions of patent records from around the world and allows for searches of the full text (title, abstract, description and claims) of patent documents. We can also search using applicants, inventors and author names and combine searches across different fields. 
 
 The Lens allows those who register for a free account to save, share and download Collections of upto 10,000 records. If you are seeking access to large amounts of patent data we suggest that you follow this route by registering for the database and creating Collections online. If you are completely new to the Lens we recommend the walkthrough in the [WIPO Manual on Open Source Patent Analytics](https://wipo-analytics.github.io/the-lens-1.html).
 
@@ -26,7 +26,7 @@ If your research involves complex queries you may find it convenient to use the 
 
 The package was developed as part of a wider initiative to make patent data more accessible for analytics purposes and to support monitoring under the [Nagoya Protocol on Access to Genetic Resources and Benefit-Sharing](https://www.cbd.int/abs/about/) of the [United Nations Convention on Biological Diversity](https://www.cbd.int/). 
 
-For those unfamiliar with patent analytics we suggest reading the [WIPO Manual on Open Source Patent Analytics](https://wipo-analytics.github.io/) and the [repository of related materials](https://github.com/wipo-analytics). 
+For those unfamiliar with patent analytics we suggest reading the [WIPO Manual on Open Source Patent Analytics](https://wipo-analytics.github.io/) and the [repository of related training materials](https://github.com/wipo-analytics). 
 
 ## Package Details
 
