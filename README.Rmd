@@ -12,7 +12,12 @@ library(tidyverse)
 [![Travis-CI Build Status](https://travis-ci.org/poldham/lensr.svg?branch=master)](https://travis-ci.org/poldham/lensr)
 [![codecov.io](https://codecov.io/github/poldham/lensr/coverage.svg?branch=master)](https://codecov.io/github/poldham/lensr?branch=master)
 
-## Introduction
+IMPORTANT NOTE: THIS PACKAGE IS DEPRECATED FOLLOWING MAJOR CHANGES TO THE LENS INTERFACE AND THE UPCOMING RELEASE OF THE LENS API. 
+
+The Lens now includes a major Scholar component and is much more powerful. Please use [the main Lens interface](https://www.lens.org/) and I will aim to release a new rewritten version of the package when the dust settles on the changes and the API is available. Meanwhile thanks for the interest.
+
+
+<!---## Introduction
 
 This R package provides access to the basic functions of the [Lens Patent Database](https://www.lens.org/lens/). 
 
@@ -84,7 +89,7 @@ Use `lens_count()` to get an idea of the results for different queries. `lens_co
 Note that you can use `type = ` to control whether to search the full text (default), title, abstract or claims as separate fields or the `title or abstract or claims` (tac) at the same time. 
 
 ```{r count_default}
-lens_count("drones") # searches full text
+lensr::lens_count("drones") # searches full text
 ```
 
 To search titles we would use:
@@ -191,6 +196,7 @@ To see the difference between setting families = TRUE try setting the value to F
 
 <!--- review the count of results and develop a test--->
 
+<!---
 ```{r inventors}
 inventors <- lens_search(query = c("synthetic genomics", "synthetic biology"), boolean = "OR", inventor = c("Venter Craig", "Smith Hamilton"), inventor_boolean = "AND", families = TRUE)
 inventors
@@ -204,6 +210,7 @@ Key term and inventor searches can be combined with applicant searches. In this 
 
 <!--- review the count of results and develop a test, expect 6 results--->
 
+<!---
 ```{r applicants}
 applicants <- lens_search(query = synbio, boolean = "OR", type = "tac", inventor = "Venter Craig", applicant = "Synthetic Genomics", families = TRUE)
 applicants
@@ -291,4 +298,4 @@ In future releases the idea is to add the following features.
 
 1. Select the jurisdiction or jurisdictions for search (as in the existing user interface)
 2. Add International Patent Classification Search. 
-3. Enable login from R and the ability to create and download Collections.
+3. Enable login from R and the ability to create and download Collections. --->
